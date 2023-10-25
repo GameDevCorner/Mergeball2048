@@ -1,0 +1,167 @@
+[gd_scene load_steps=16 format=3 uid="uid://bsqomw3fnrjos"]
+
+[ext_resource type="Script" path="res://BallSpawner.gd" id="1_gurkf"]
+[ext_resource type="Script" path="res://GameOverText.gd" id="1_p3har"]
+[ext_resource type="Script" path="res://ScoreValue.gd" id="2_p1mra"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_uyi6p"]
+font_size = 40
+outline_size = 7
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_yy504"]
+
+[sub_resource type="Gradient" id="Gradient_fkrf4"]
+colors = PackedColorArray(0.587258, 0.495164, 0.946829, 1, 5.39064e-06, 0.655666, 0.847349, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_jvs8u"]
+gradient = SubResource("Gradient_fkrf4")
+width = 1
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_trs51"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2tjw7"]
+size = Vector2(10.285, 627)
+
+[sub_resource type="Gradient" id="Gradient_bvdkq"]
+colors = PackedColorArray(0.721569, 0.682353, 0.631373, 1, 0.721569, 0.682353, 0.631373, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_vnjd1"]
+gradient = SubResource("Gradient_bvdkq")
+width = 1
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gjhf3"]
+size = Vector2(584.375, 51)
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_5ol50"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_isx8j"]
+size = Vector2(2704, 204)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_t0p36"]
+
+[node name="World" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(279, 275)
+
+[node name="GameOverText" type="RichTextLabel" parent="."]
+visible = false
+top_level = true
+z_index = 6
+offset_left = -81.0
+offset_top = 40.0
+offset_right = 548.0
+offset_bottom = 330.0
+bbcode_enabled = true
+text = "[center][outline_size=10][outline_color=#000][font_size=69][tornado radius=2.0 freq=8.0 connected=1]Game Over[/tornado][/font_size][font_size={48}]
+Press [wave amp=40.0 freq=10.0 connected=1]R[/wave] to reset[/font_size][/outline_color][/outline_size][/center]
+
+"
+script = ExtResource("1_p3har")
+
+[node name="ScoreCollection" type="Node2D" parent="."]
+position = Vector2(660, -120)
+
+[node name="ScoreText" type="Label" parent="ScoreCollection"]
+offset_left = -831.0
+offset_bottom = 72.0
+text = "Score:"
+label_settings = SubResource("LabelSettings_uyi6p")
+horizontal_alignment = 2
+
+[node name="ScoreValue" type="Label" parent="ScoreCollection"]
+offset_left = -831.0
+offset_top = 36.0
+offset_bottom = 108.0
+text = "0"
+label_settings = SubResource("LabelSettings_uyi6p")
+horizontal_alignment = 2
+script = ExtResource("2_p1mra")
+
+[node name="BallSpawner" type="Sprite2D" parent="."]
+position = Vector2(-37, 0)
+script = ExtResource("1_gurkf")
+
+[node name="BallParent" type="Node" parent="BallSpawner"]
+
+[node name="SpawnerIndicator" type="MeshInstance2D" parent="BallSpawner"]
+scale = Vector2(20, 20)
+mesh = SubResource("SphereMesh_yy504")
+texture = SubResource("GradientTexture1D_jvs8u")
+
+[node name="Box" type="Node2D" parent="."]
+position = Vector2(240, 485)
+
+[node name="LeftBody" type="StaticBody2D" parent="Box"]
+position = Vector2(-287.915, 35)
+physics_material_override = SubResource("PhysicsMaterial_trs51")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Box/LeftBody"]
+position = Vector2(0, -167.5)
+rotation = 3.14159
+shape = SubResource("RectangleShape2D_2tjw7")
+debug_color = Color(0, 0.454902, 0.419608, 1)
+
+[node name="Wall3" type="Sprite2D" parent="Box/LeftBody"]
+position = Vector2(0, -136.33)
+scale = Vector2(10.28, 689.388)
+texture = SubResource("GradientTexture1D_vnjd1")
+
+[node name="RightBody" type="StaticBody2D" parent="Box"]
+position = Vector2(302, 32.54)
+physics_material_override = SubResource("PhysicsMaterial_trs51")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Box/RightBody"]
+position = Vector2(-15.9825, -165)
+shape = SubResource("RectangleShape2D_2tjw7")
+debug_color = Color(0.721569, 0.682353, 0.631373, 1)
+
+[node name="Wall2" type="Sprite2D" parent="Box/RightBody"]
+position = Vector2(-15.99, -138.38)
+scale = Vector2(10.28, 689.388)
+texture = SubResource("GradientTexture1D_vnjd1")
+
+[node name="GoundBody" type="StaticBody2D" parent="Box"]
+position = Vector2(-1, 187)
+physics_material_override = SubResource("PhysicsMaterial_trs51")
+
+[node name="Wall4" type="Sprite2D" parent="Box/GoundBody"]
+rotation = 1.5708
+scale = Vector2(10.28, 584.548)
+texture = SubResource("GradientTexture1D_vnjd1")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Box/GoundBody"]
+position = Vector2(0, 20.5)
+shape = SubResource("RectangleShape2D_gjhf3")
+debug_color = Color(0.721569, 0.682353, 0.631373, 1)
+
+[node name="DestroyZone" type="StaticBody2D" parent="." groups=["destroy_ball"]]
+position = Vector2(258, 901.315)
+physics_material_override = SubResource("PhysicsMaterial_5ol50")
+
+[node name="Top" type="CollisionShape2D" parent="DestroyZone"]
+position = Vector2(0, -2000)
+shape = SubResource("RectangleShape2D_isx8j")
+
+[node name="Bot" type="CollisionShape2D" parent="DestroyZone"]
+shape = SubResource("RectangleShape2D_isx8j")
+
+[node name="Left" type="CollisionShape2D" parent="DestroyZone"]
+position = Vector2(-1000, -990)
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_isx8j")
+
+[node name="Right" type="CollisionShape2D" parent="DestroyZone"]
+position = Vector2(1000, -990)
+rotation = -1.5708
+shape = SubResource("RectangleShape2D_isx8j")
+
+[node name="Background" type="TextureRect" parent="."]
+modulate = Color(0.788235, 0.752941, 0.705882, 1)
+z_index = -10
+offset_left = -352.0
+offset_top = -339.0
+offset_right = 914.0
+offset_bottom = 940.0
+texture = SubResource("CanvasTexture_t0p36")

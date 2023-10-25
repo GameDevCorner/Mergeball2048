@@ -1,0 +1,58 @@
+[gd_scene load_steps=5 format=3 uid="uid://d34ilgilqx0si"]
+
+[ext_resource type="Script" path="res://MergeBall.gd" id="1_1uddq"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_mamol"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_w86nc"]
+radius = 25.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_rxrp2"]
+font_size = 26
+
+[node name="Ball" type="Node2D" groups=["ball"]]
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+physics_material_override = SubResource("PhysicsMaterial_mamol")
+max_contacts_reported = 1
+contact_monitor = true
+can_sleep = false
+script = ExtResource("1_1uddq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+shape = SubResource("CircleShape2D_w86nc")
+
+[node name="SizeLabel" type="Label" parent="RigidBody2D"]
+visible = false
+offset_left = 1.0
+offset_top = -3.0
+offset_right = 41.0
+offset_bottom = 23.0
+text = "25"
+
+[node name="IndexLabel" type="Label" parent="RigidBody2D"]
+visible = false
+offset_left = -16.0
+offset_top = -22.0
+offset_right = 24.0
+offset_bottom = 4.0
+text = "0"
+
+[node name="Num" type="Label" parent="RigidBody2D"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -25.0
+offset_top = -25.0
+offset_right = 25.0
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "0"
+label_settings = SubResource("LabelSettings_rxrp2")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="body_entered" from="RigidBody2D" to="RigidBody2D" method="_on_body_entered"]
